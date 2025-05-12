@@ -1,21 +1,26 @@
 from ultralytics import YOLO
-import cv2
+
 print("Model Loading")
-# Load a pre-trained model (e.g., yolov8n, yolov8s, yolov8m, etc.)
-model = YOLO("models/1lariV4_n.pt")  # 'n' is nano version for speed
+model = YOLO("models/1lariV4_n.pt")  # Replace path if needed
 print("Model Loaded")
-# Load an image
 
-print("input IMG")
 image_path = "imgs/coins4.jpg"
-results = model(image_path)
-print("IMG sent")
-# Save results
 
+for run in range(2):
+    print(f"\n--- Run {run + 1} ---")
+    results = model(image_path)
+    print("IMG processed")
 
-results[0].save(filename="predicted4.jpg")
+    # Save the result image with unique name
+    out_filename = f"predicted4_run{run + 1}.jpg"
+    results[0].save(filename=out_filename)
+    print(f"Saved: {out_filename}")
 
-# Optional: Get prediction details
-# for result in results:
-#     for box in result.boxes:
-#         print(f"Class: {result.names[int(box.cls)]}, Confidence: {box.conf.item()}, Box: {box.xyxy[0].tolist()}")
+    # Print prediction details
+    print("\nPrediction Results:")
+    for box in results[0].boxes:
+        cls_id = int(box.cls[0])
+        conf = float(box.conf[0])
+        xyxy = box.xyxy[0].tolist()
+        label = results[0].names[cls_id]
+        print(f"Class: {label}, Confidence: {conf:.2f}, Box: {xyxy}")
