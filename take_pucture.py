@@ -11,6 +11,8 @@ image_path = "imgs/coins4.jpg"
 results = model(image_path)
 print("IMG sent")
 # Save results
+
+
 results[0].save(filename="predicted4.jpg")
 
 # Optional: Get prediction details
